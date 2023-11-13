@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Ubuntu:wght@500&display=swap" rel="stylesheet" />
+        <title>학습과제</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                font-family: 'Noto Sans KR', 'Ubuntu', sans-serif;
+            }
+            button,
+            .pagination {
+                font-family: 'Ubuntu';
+            }
+            .pagination {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+        </style>
+        <script>
+            const array = ['🍖', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+            // array_2weeks는 2주차 이상부터 사용하게 되는 자료구조입니다.
+            const array_2weeks = [
+                { value: 1, current: true },
+                { value: 2, current: false },
+                { value: 3, current: false },
+                { value: 4, current: false },
+                { value: 5, current: false },
+                { value: 6, current: false },
+                { value: 2, current: false },
+                { value: 3, current: false },
+            ];
+            console.log(`Array의 사이즈 ${array.length}`);
+
+            document.addEventListener('DOMContentLoaded', () => {
+                // 1주차는 array를 사용하고 2주차 부터는 array_2weeks를 사용합니다.
+                /*
+                console.log(array.indexOf('🍖'));
+                console.log(array.findIndex(findOne));
+                function findOne(value, index, array) {
+                    return value === '🍖';
+                }
+                */
+                const previousButton = document.querySelector('.prevBtn');
+                const nextButton = document.querySelector('.nextBtn');
+                const pagination = document.querySelector('.pagination');
+                const arrayLength = array.length;
+                pagination.innerHTML = array;
+                const btn = document.querySelectorAll('.btn');
+                /*
+                btn.forEach((e) => {
+                    e.addEventListener('click', () => {
+                        const currentPosition = array.indexOf('🍖');
+                        if (e.dataset.button == 'prevBtn') {
+                            if (currentPosition > 0) {
+                                array[currentPosition - 1] = '🍖';
+                                array[currentPosition] = 0;
+                            }
+                        } else if (e.dataset.button == 'nextBtn') {
+                            if (currentPosition < arrayLength - 1) {
+                                array[currentPosition + 1] = '🍖';
+                            } else {
+                                array[0] = '🍖';
+                            }
+                            array[currentPosition] = 0;
+                        }
+                        pagination.innerHTML = array;
+                    });
+                });
+                */
+                /*
+                btn.forEach((e) => {
+                    e.addEventListener('click', () => {
+                        const currentPosition = array.indexOf('🍖');
+                        switch (e.dataset.button) {
+                            case 'prevBtn':
+                                if (currentPosition > 0) {
+                                    array[currentPosition - 1] = '🍖';
+                                    array[currentPosition] = 0;
+                                }
+                                break;
+                            case 'nextBtn':
+                                if (currentPosition < arrayLength - 1) {
+                                    array[currentPosition + 1] = '🍖';
+                                } else {
+                                    array[0] = '🍖';
+                                }
+                                array[currentPosition] = 0;
+                                break;
+                            default:
+                                break;
+                        }
+                        pagination.innerHTML = array;
+                    });
+                });
+                */
+                previousButton.addEventListener('click', () => {
+                    const currentPosition = array.indexOf('🍖');
+                    if (currentPosition > 0) {
+                        array[currentPosition - 1] = '🍖';
+                        array[currentPosition] = 0;
+                    }
+                    pagination.innerHTML = array;
+                });
+                nextButton.addEventListener('click', () => {
+                    const currentPosition = array.indexOf('🍖');
+                    if (currentPosition < arrayLength - 1) {
+                        array[currentPosition + 1] = '🍖';
+                    } else {
+                        array[0] = '🍖';
+                    }
+                    array[currentPosition] = 0;
+                    pagination.innerHTML = array;
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <div class="pagination"></div>
+        <button type="button" class="btn btn-primary prevBtn" data-button="prevBtn">previous</button>
+        <button type="button" class="btn btn-danger nextBtn" data-button="nextBtn">next</button>
+    </body>
+</html>
