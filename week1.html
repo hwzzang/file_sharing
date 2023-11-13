@@ -15,17 +15,23 @@
                 padding: 0;
                 font-family: 'Noto Sans KR', 'Ubuntu', sans-serif;
             }
+            body {
+                padding: 20px;
+            }
             button,
-            .pagination {
+            .pagination,
+            .pagination2 {
                 font-family: 'Ubuntu';
             }
-            .pagination {
+            .pagination,
+            .pagination2 {
                 font-size: 20px;
                 letter-spacing: 2px;
             }
         </style>
         <script>
             const array = ['🍖', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            const array2 = ['🥩', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
             // array_2weeks는 2주차 이상부터 사용하게 되는 자료구조입니다.
             const array_2weeks = [
@@ -49,6 +55,8 @@
                     return value === '🍖';
                 }
                 */
+
+                /* 💩💩💩💩💩💩💩💩💩 */
                 const previousButton = document.querySelector('.prevBtn');
                 const nextButton = document.querySelector('.nextBtn');
                 const pagination = document.querySelector('.pagination');
@@ -106,13 +114,15 @@
                     const currentPosition = array.indexOf('🍖');
                     if (currentPosition > 0) {
                         array[currentPosition - 1] = '🍖';
-                        array[currentPosition] = 0;
+                    } else {
+                        array[array.length - 1] = '🍖';
                     }
+                    array[currentPosition] = 0;
                     pagination.innerHTML = array;
                 });
                 nextButton.addEventListener('click', () => {
                     const currentPosition = array.indexOf('🍖');
-                    if (currentPosition < arrayLength - 1) {
+                    if (currentPosition < array.length - 1) {
                         array[currentPosition + 1] = '🍖';
                     } else {
                         array[0] = '🍖';
@@ -120,6 +130,38 @@
                     array[currentPosition] = 0;
                     pagination.innerHTML = array;
                 });
+                /* 💩💩💩💩💩💩💩💩💩 */
+
+                function bindAction() {
+                    return {
+                        prev: () => {
+                            const currentPosition = array2.indexOf('🥩');
+                            array2[currentPosition] = 0;
+                            if (currentPosition > 0) {
+                                array2[currentPosition - 1] = '🥩';
+                            } else {
+                                array2[array2.length - 1] = '🥩';
+                            }
+                            pagination2.innerHTML = array2;
+                        },
+                        next: () => {
+                            const currentPosition = array2.indexOf('🥩');
+                            array2[currentPosition] = 0;
+                            if (currentPosition >= array2.length - 1) {
+                                array2[0] = '🥩';
+                            } else {
+                                array2[currentPosition + 1] = '🥩';
+                            }
+                            pagination2.innerHTML = array2;
+                        },
+                    };
+                }
+                const previousButton2 = document.querySelector('.prevBtn2');
+                const nextButton2 = document.querySelector('.nextBtn2');
+                const pagination2 = document.querySelector('.pagination2');
+                pagination2.innerHTML = array2;
+                previousButton2.addEventListener('click', bindAction().prev);
+                nextButton2.addEventListener('click', bindAction().next);
             });
         </script>
     </head>
@@ -128,5 +170,9 @@
         <div class="pagination"></div>
         <button type="button" class="btn btn-primary prevBtn" data-button="prevBtn">previous</button>
         <button type="button" class="btn btn-danger nextBtn" data-button="nextBtn">next</button>
+        <hr />
+        <div class="pagination2"></div>
+        <button type="button" class="btn btn-info prevBtn2" data-button="prevBtn2">previous2</button>
+        <button type="button" class="btn btn-warning nextBtn2" data-button="nextBtn2">next2</button>
     </body>
 </html>
