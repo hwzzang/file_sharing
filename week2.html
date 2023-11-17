@@ -57,11 +57,11 @@
             const array_2weeks = [
                 { value: 1, current: false },
                 { value: 2, current: false },
-                { value: 3, current: true },
-                { value: 4, current: false },
+                { value: 3, current: false },
+                { value: 4, current: true },
                 { value: 5, current: false },
                 { value: 6, current: false },
-                { value: 7, current: false },
+                { value: 7, current: true },
                 { value: 8, current: false },
             ];
             document.addEventListener('DOMContentLoaded', () => {
@@ -90,58 +90,48 @@
                 function bindAction() {
                     return {
                         prev: () => {
-                            let currentPosition = array_2weeks.findIndex(findCurrentPositions);
-                            let previousPosition = array_2weeks[currentPosition - 1];
-                            function findCurrentPositions(array) {
-                                return array.current === true;
+                            const indexArray = [];
+                            for (let i = 0; i < array_2weeks.length; i++) {
+                                if (array_2weeks[i].current === true) {
+                                    indexArray.push(i);
+                                }
                             }
-                            if (currentPosition < 1) {
-                                previousPosition = array_2weeks[arrayLength - 1];
-                                array_2weeks[arrayLength - 1] = array_2weeks[currentPosition];
-                                array_2weeks[0] = previousPosition;
-                            } else {
-                                array_2weeks[currentPosition - 1] = array_2weeks[currentPosition];
-                                array_2weeks[currentPosition] = previousPosition;
-                            }
-                            pagination.innerHTML = '';
-                            array_2weeks.forEach((e) => {
-                                let arrayCurrent = e.current;
-                                let arrayValue = e.value;
-                                if (Math.floor(arrayValue % 2) == 0 && arrayCurrent == false) {
-                                    /* arrayValue = carbs[randomNumberCalc(carbs)]; */
-                                    pagination.innerHTML += `<span class='multiply'>${arrayValue}</span>`;
+                            indexArray.forEach((e) => {
+                                currentPosition = e;
+                                previousPosition = array_2weeks[e - 1];
+                                if (currentPosition < 1) {
+                                    previousPosition = array_2weeks[arrayLength - 1];
+                                    array_2weeks[arrayLength - 1] = array_2weeks[currentPosition];
+                                    array_2weeks[0] = previousPosition;
                                 } else {
-                                    /* arrayValue = arrayCurrent ? meat[randomNumberCalc(meat)] : vegetables[randomNumberCalc(vegetables)]; */
-                                    arrayCurrent ? (pagination.innerHTML += `<span class='current'>${arrayValue}</span>`) : (pagination.innerHTML += `<span>${arrayValue}</span>`);
+                                    array_2weeks[currentPosition - 1] = array_2weeks[currentPosition];
+                                    array_2weeks[currentPosition] = previousPosition;
                                 }
                             });
+                            pagination.innerHTML = '';
+                            array_2weeksPrint();
                         },
                         next: () => {
-                            let currentPosition = array_2weeks.findIndex(findCurrentPositions);
-                            let nextPosition = array_2weeks[currentPosition + 1];
-                            function findCurrentPositions(array) {
-                                return array.current === true;
+                            const indexArray = [];
+                            for (let i = 0; i < array_2weeks.length; i++) {
+                                if (array_2weeks[i].current === true) {
+                                    indexArray.push(i);
+                                }
                             }
-                            if (currentPosition > arrayLength - 2) {
-                                nextPosition = array_2weeks[0];
-                                array_2weeks[0] = array_2weeks[currentPosition];
-                                array_2weeks[arrayLength - 1] = nextPosition;
-                            } else {
-                                array_2weeks[currentPosition + 1] = array_2weeks[currentPosition];
-                                array_2weeks[currentPosition] = nextPosition;
-                            }
-                            pagination.innerHTML = '';
-                            array_2weeks.forEach((e) => {
-                                let arrayCurrent = e.current;
-                                let arrayValue = e.value;
-                                if (Math.floor(arrayValue % 2) == 0 && arrayCurrent == false) {
-                                    /* arrayValue = carbs[randomNumberCalc(carbs)]; */
-                                    pagination.innerHTML += `<span class='multiply'>${arrayValue}</span>`;
+                            indexArray.forEach((e) => {
+                                currentPosition = e;
+                                nextPosition = array_2weeks[e + 1];
+                                if (currentPosition > arrayLength - 2) {
+                                    nextPosition = array_2weeks[0];
+                                    array_2weeks[0] = array_2weeks[currentPosition];
+                                    array_2weeks[arrayLength - 1] = nextPosition;
                                 } else {
-                                    /* arrayValue = arrayCurrent ? meat[randomNumberCalc(meat)] : vegetables[randomNumberCalc(vegetables)]; */
-                                    arrayCurrent ? (pagination.innerHTML += `<span class='current'>${arrayValue}</span>`) : (pagination.innerHTML += `<span>${arrayValue}</span>`);
+                                    array_2weeks[currentPosition + 1] = array_2weeks[currentPosition];
+                                    array_2weeks[currentPosition] = nextPosition;
                                 }
                             });
+                            pagination.innerHTML = '';
+                            array_2weeksPrint();
                         },
                     };
                 }
