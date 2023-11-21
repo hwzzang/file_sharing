@@ -51,17 +51,14 @@
         </style>
         <script>
             // array_2weeks는 2주차 이상부터 사용하게 되는 자료구조입니다.
-            const vegetables = ['🥗', '🥦', '🥒', '🫑', '🥬'];
-            const carbs = ['🍚', '🍜'];
-            const meat = ['🥩', '🍖'];
             const array_2weeks = [
                 { value: 1, current: false },
                 { value: 2, current: false },
                 { value: 3, current: false },
                 { value: 4, current: true },
-                { value: 5, current: false },
+                { value: 5, current: true },
                 { value: 6, current: false },
-                { value: 7, current: true },
+                { value: 7, current: false },
                 { value: 8, current: false },
             ];
             document.addEventListener('DOMContentLoaded', () => {
@@ -69,20 +66,14 @@
                 const nextButton = document.querySelector('.nextBtn');
                 const pagination = document.querySelector('.pagination');
                 const arrayLength = array_2weeks.length;
-                const randomNumberCalc = function (array) {
-                    let randomIndex = Math.floor(Math.random() * array.length);
-                    return randomIndex;
-                };
                 function array_2weeksPrint() {
-                    array_2weeks.forEach((e) => {
+                    array_2weeks.forEach((e, index) => {
                         let arrayCurrent = e.current;
                         let arrayValue = e.value;
-                        if (Math.floor(arrayValue % 2) == 0 && arrayCurrent == false) {
-                            arrayValue = carbs[randomNumberCalc(carbs)];
-                            pagination.innerHTML += `<span class='multiply'>${arrayValue}</span>`;
+                        if (Math.floor(index % 2) == 0 && arrayCurrent == false && index != 0) {
+                            pagination.innerHTML += `<span class='multiply'>${arrayValue}<br><br>${index}</span>`;
                         } else {
-                            arrayValue = arrayCurrent ? meat[randomNumberCalc(meat)] : vegetables[randomNumberCalc(vegetables)];
-                            arrayCurrent ? (pagination.innerHTML += `<span class='current'>${arrayValue}</span>`) : (pagination.innerHTML += `<span>${arrayValue}</span>`);
+                            arrayCurrent ? (pagination.innerHTML += `<span class='current'>${arrayValue}<br><br>${index}</span>`) : (pagination.innerHTML += `<span>${arrayValue}<br><br>${index}</span>`);
                         }
                     });
                 }
@@ -90,15 +81,13 @@
                 function bindAction() {
                     return {
                         prev: () => {
-                            const indexArray = [];
-                            for (let i = 0; i < array_2weeks.length; i++) {
-                                if (array_2weeks[i].current === true) {
-                                    indexArray.push(i);
-                                }
-                            }
-                            indexArray.forEach((e) => {
-                                currentPosition = e;
-                                previousPosition = array_2weeks[e - 1];
+                            const currents = array_2weeks.map((item, index) => ({ ...item, index })).filter((item) => item.current);
+                            currents.sort(function (a, b) {
+                                return a.value - b.value;
+                            });
+                            currents.forEach((e) => {
+                                currentPosition = e.index;
+                                previousPosition = array_2weeks[e.index - 1];
                                 if (currentPosition < 1) {
                                     previousPosition = array_2weeks[arrayLength - 1];
                                     array_2weeks[arrayLength - 1] = array_2weeks[currentPosition];
@@ -112,15 +101,13 @@
                             array_2weeksPrint();
                         },
                         next: () => {
-                            const indexArray = [];
-                            for (let i = 0; i < array_2weeks.length; i++) {
-                                if (array_2weeks[i].current === true) {
-                                    indexArray.push(i);
-                                }
-                            }
-                            indexArray.forEach((e) => {
-                                currentPosition = e;
-                                nextPosition = array_2weeks[e + 1];
+                            const currents = array_2weeks.map((item, index) => ({ ...item, index })).filter((item) => item.current);
+                            currents.sort(function (a, b) {
+                                return b.value - a.value;
+                            });
+                            currents.forEach((e) => {
+                                currentPosition = e.index;
+                                nextPosition = array_2weeks[e.index + 1];
                                 if (currentPosition > arrayLength - 2) {
                                     nextPosition = array_2weeks[0];
                                     array_2weeks[0] = array_2weeks[currentPosition];
